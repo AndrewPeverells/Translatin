@@ -1,56 +1,56 @@
-# Translatin project: https://translatin.nl
-# Head of the project: Jan Bloemendal
-# Author: Andrea Peverelli (Github/AndrewPeverells), Huygens ING, KNAW Humanities Cluster, DHLab: https://www.huygens.knaw.nl/medewerkers/andrea.peverelli
-# Supervisor: Marieke van Erp, KNAW Humanities Cluster, DHLab: https://mariekevanerp.com/
-# DHLab site: https://dhlab.nl/
+*Translatin project: https://translatin.nl \
+Head of the project: Jan Bloemendal \
+Author: Andrea Peverelli (Github/AndrewPeverells), Huygens ING, KNAW Humanities Cluster, DHLab: https://www.huygens.knaw.nl/medewerkers/andrea.peverelli \
+Supervisor: Marieke van Erp, KNAW Humanities Cluster, DHLab: https://mariekevanerp.com/ \
+DHLab site: https://dhlab.nl/*
 
 ----------------------------------------------------------------------------------------------------------
 
-CORPUS PREPARATION
+# CORPUS PREPARATION
 
-0) ASSEMBLING THE CORPUS
+## 0) ASSEMBLING THE CORPUS
 
 3 texts:
-. Crocus Ioseph
-. Macropedius Hecastus
-. Macropedius Ioseph
+- Crocus Ioseph
+- Macropedius Hecastus
+- Macropedius Ioseph
 
-#2 from the same author / 2 with same topic
+#### 2 from the same author / 2 with same topic ####
 
-1) CLEANING THE TEXTS
+## 1) CLEANING THE TEXTS
 
-# replacing punctuation
+**Replacing punctuation**
 
-- text = '[text]'
+1. `text = '[text]'`
 
-- x = text.replace(",", " ").replace(".", " ").replace(":", " ").replace(";", " ").replace("!", " ").replace("?", " ").replace("’", " ").replace("-,", " ").replace("*", " ")
-print(x)
+2. `x = text.replace(",", " ").replace(".", " ").replace(":", " ").replace(";", " ").replace("!", " ").replace("?", " ").replace("’", " ").replace("-,", " ").replace("*", " ")`\
+`print(x)`
 
-*
+--------------------------------------
 
-# changing everything to lower case
+**Changing everything to lower case**
 
-- tokens = ['tokens', 'list']
+1. `tokens = ['tokens', 'list']`
 
-- tokens = [each_string.lower() for each_string in tokens]
-  print(tokens)
-
+2. `tokens = [each_string.lower() for each_string in tokens]`\
+  `print(tokens)`
+  
 ***
 
-TASKS
+# TASKS
 
-2) TOKENIZATION:
+## 2) TOKENIZATION:
 
-import nltk
-from cltk.tokenize.word import WordTokenizer
-word_tokenizer = WordTokenizer('latin')
-word_tokenizer.tokenize(x)
+`import nltk`\
+`from cltk.tokenize.word import WordTokenizer`\
+`word_tokenizer = WordTokenizer('latin')`\
+`word_tokenizer.tokenize(x)`
 
-3) LEMMATIZATION:
+## 3) LEMMATIZATION:
 
-from cltk.lemmatize.latin.backoff import BackoffLatinLemmatizer
-lemmatizer = BackoffLatinLemmatizer()
-tokens = ['tokens', 'list']
-lemmatizer.lemmatize(tokens)
+`from cltk.lemmatize.latin.backoff import BackoffLatinLemmatizer`\
+`lemmatizer = BackoffLatinLemmatizer()`\
+`tokens = ['tokens', 'list']`\
+`lemmatizer.lemmatize(tokens)`
 
-# cltk lemmatizer recognizes archaisms too!
+#### cltk lemmatizer recognizes archaisms too! ####
