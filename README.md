@@ -6,18 +6,18 @@ DHLab site: https://dhlab.nl/*
 
 ----------------------------------------------------------------------------------------------------------
 
-# CORPUS PREPARATION
+> # CORPUS PREPARATION
 
-## 0) ASSEMBLING THE CORPUS
+> ## 0) ASSEMBLING THE CORPUS (Translatin Repository)
 
 3 texts:
 - Crocus Ioseph
 - Macropedius Hecastus
 - Macropedius Ioseph
 
-#### 2 from the same author / 2 with same topic ####
+*2 from the same author / 2 with same topic*
 
-## 1) CLEANING THE TEXTS
+> ## 1) CLEANING THE TEXTS (through CLTK: http://cltk.org/)
 
 **Replacing punctuation**
 
@@ -25,8 +25,6 @@ DHLab site: https://dhlab.nl/*
 
 2. `x = text.replace(",", " ").replace(".", " ").replace(":", " ").replace(";", " ").replace("!", " ").replace("?", " ").replace("’", " ").replace("-,", " ").replace("*", " ")`\
 `print(x)`
-
---------------------------------------
 
 **Changing everything to lower case**
 
@@ -37,20 +35,20 @@ DHLab site: https://dhlab.nl/*
   
 ***
 
-# TASKS
+> # TASKS
 
-## 2) TOKENIZATION:
+> ## 2) TOKENIZATION:
 
 `import nltk`\
 `from cltk.tokenize.word import WordTokenizer`\
 `word_tokenizer = WordTokenizer('latin')`\
 `word_tokenizer.tokenize(x)`
 
-## 3) LEMMATIZATION:
+> ## 3) LEMMATIZATION:
 
 `from cltk.lemmatize.latin.backoff import BackoffLatinLemmatizer`\
 `lemmatizer = BackoffLatinLemmatizer()`\
 `tokens = ['tokens', 'list']`\
 `lemmatizer.lemmatize(tokens)`
 
-#### cltk lemmatizer recognizes archaisms too! ####
+*(cltk lemmatizer recognizes archaisms too!)*
