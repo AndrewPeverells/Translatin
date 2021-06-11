@@ -17,7 +17,7 @@
 
 *2 from the same author / 2 with same topic*
 
-> ## 1) CLEANING THE TEXTS (through CLTK: http://cltk.org/)
+> ## 1) CLEANING THE TEXTS
 
 **Replacing punctuation**
 
@@ -35,7 +35,7 @@
   
 ***
 
-> # TASKS
+> # TASKS (through CLTK: http://cltk.org/)
 
 > ## 2) TOKENIZATION:
 
