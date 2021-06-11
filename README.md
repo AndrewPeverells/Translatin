@@ -7,8 +7,9 @@
 ----------------------------------------------------------------------------------------------------------
 
 > # CORPUS PREPARATION
+<br />
 
-> ## 0) ASSEMBLING THE CORPUS (Translatin Repository)
+> ### 0) ASSEMBLING THE CORPUS (Translatin Repository)
 
 3 texts:
 - Crocus Ioseph
@@ -16,9 +17,9 @@
 - Macropedius Ioseph
 
 *2 from the same author / 2 with same topic*
-
-
-> ## 1) CLEANING THE TEXTS
+<br />
+<br />
+> ### 1) CLEANING THE TEXTS
 
 
 **Replacing punctuation**
@@ -28,6 +29,7 @@
 2. `x = text.replace(",", " ").replace(".", " ").replace(":", " ").replace(";", " ").replace("!", " ").replace("?", " ").replace("’", " ").replace("-,", " ").replace("*", " ")`\
 `print(x)`
 
+<br />
 
 **Changing everything to lower case**
 
@@ -37,19 +39,22 @@
   `print(tokens)`
   
 ***
+<br />
 
 > # TASKS (through CLTK: http://cltk.org/)
 
+<br />
 
-> ## 2) TOKENIZATION:
+> ### 2) TOKENIZATION:
 
 `import nltk`\
 `from cltk.tokenize.word import WordTokenizer`\
 `word_tokenizer = WordTokenizer('latin')`\
 `word_tokenizer.tokenize(x)`
 
+<br />
 
-> ## 3) LEMMATIZATION:
+> ### 3) LEMMATIZATION:
 
 `from cltk.lemmatize.latin.backoff import BackoffLatinLemmatizer`\
 `lemmatizer = BackoffLatinLemmatizer()`\
