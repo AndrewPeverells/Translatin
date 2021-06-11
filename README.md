@@ -17,7 +17,9 @@
 
 *2 from the same author / 2 with same topic*
 
+
 > ## 1) CLEANING THE TEXTS
+
 
 **Replacing punctuation**
 
@@ -25,6 +27,7 @@
 
 2. `x = text.replace(",", " ").replace(".", " ").replace(":", " ").replace(";", " ").replace("!", " ").replace("?", " ").replace("’", " ").replace("-,", " ").replace("*", " ")`\
 `print(x)`
+
 
 **Changing everything to lower case**
 
@@ -37,12 +40,14 @@
 
 > # TASKS (through CLTK: http://cltk.org/)
 
+
 > ## 2) TOKENIZATION:
 
 `import nltk`\
 `from cltk.tokenize.word import WordTokenizer`\
 `word_tokenizer = WordTokenizer('latin')`\
 `word_tokenizer.tokenize(x)`
+
 
 > ## 3) LEMMATIZATION:
 
