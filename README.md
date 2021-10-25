@@ -65,44 +65,44 @@
 
 > ### 4) Calculating Cosine Similarities
 
-`from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
-import pandas as pd
-import numpy as np
+`from sklearn.metrics.pairwise import cosine_similarity`
+`from sklearn.feature_extraction.text import TfidfVectorizer`
+`import pandas as pd`
+`import numpy as np`
 
-corpus = [#crocus
+`corpus = [#crocus
 	#mhecastus
 	#mjoseph
-	...]
+	...]`
 
-# method 1 (scikit cosine_similarity)
-from sklearn.metrics.pairwise import cosine_similarity
-vectorizer = TfidfVectorizer()
-tfidf_matrix = vectorizer.fit_transform(corpus)
-cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
-print(cosine_sim)
+`# method 1 (scikit cosine_similarity)`
+`from sklearn.metrics.pairwise import cosine_similarity`
+`vectorizer = TfidfVectorizer()`
+`tfidf_matrix = vectorizer.fit_transform(corpus)`
+`cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)`
+`print(cosine_sim)`
 
-# method 2 (scikit vectorizer + tf_matrix)
-from sklearn.feature_extraction.text import CountVectorizer
-LemVectorizer = CountVectorizer(corpus)
-LemVectorizer.fit_transform(corpus)
-print(LemVectorizer.vocabulary_)
+`# method 2 (scikit vectorizer + tf_matrix)`
+`from sklearn.feature_extraction.text import CountVectorizer`
+`LemVectorizer = CountVectorizer(corpus)`
+`LemVectorizer.fit_transform(corpus)`
+`print(LemVectorizer.vocabulary_)`
 
-tf_matrix = LemVectorizer.transform(corpus).toarray()
-print(tf_matrix)
+`tf_matrix = LemVectorizer.transform(corpus).toarray()`
+`print(tf_matrix)`
 
-from sklearn.feature_extraction.text import TfidfTransformer
-tfidfTran = TfidfTransformer(norm="l2")
-tfidfTran.fit(tf_matrix)
-print(tfidfTran.idf_)
+`from sklearn.feature_extraction.text import TfidfTransformer`
+`tfidfTran = TfidfTransformer(norm="l2")`
+`tfidfTran.fit(tf_matrix)`
+`print(tfidfTran.idf_)`
 
-tfidf_matrix = tfidfTran.transform(tf_matrix)
-print(tfidf_matrix.toarray())
+`tfidf_matrix = tfidfTran.transform(tf_matrix)`
+`print(tfidf_matrix.toarray())`
 
-cos_similarity_matrix = (tfidf_matrix * tfidf_matrix.T).toarray()
-print(cos_similarity_matrix)`
+`cos_similarity_matrix = (tfidf_matrix * tfidf_matrix.T).toarray()`
+`print(cos_similarity_matrix)`
 
-#Order of texts
+`#Order of texts`
 1. crocus 1535
 2. mhecastus 1539
 3. mjoseph 1544
