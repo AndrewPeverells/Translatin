@@ -57,11 +57,11 @@ Terentius
 ***
 <br />
 
-> # TASKS (through CLTK: http://cltk.org/)
+> # TASKS
 
 <br />
 
-> ### 2) TOKENIZATION:
+> ### 2) TOKENIZATION (through CLTK: http://cltk.org/)
 
 `import nltk`\
 `from cltk.tokenize.word import WordTokenizer`\
@@ -70,7 +70,7 @@ Terentius
 
 <br />
 
-> ### 3) LEMMATIZATION:
+> ### 3) LEMMATIZATION (through LEMLAT: http://www.lemlat3.eu/)
 
 `from cltk.lemmatize.latin.backoff import BackoffLatinLemmatizer`\
 `lemmatizer = BackoffLatinLemmatizer()`\
