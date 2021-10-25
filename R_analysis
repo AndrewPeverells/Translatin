@@ -1,0 +1,180 @@
+### required packages:
+
+install.packages("udpipe")
+install.packages("tidyverse")
+install.packages("igraph")
+install.packages("ggraph")
+install.packages("xlsx")
+
+library(udpipe)
+library(tidyverse)
+library(igraph)
+library(ggraph)
+library(xlsx)
+
+drama <- readLines('crocus_tok.txt')
+text <- paste(drama)
+
+# Text cleaning and manipulation
+text <- strsplit(text, "\\W")
+head(text)
+
+text <- unlist(text)
+head(text)
+
+which(text == "")
+text <- text[which(text != "")]
+
+### Dispersion plots
+
+#Example: occurrences of "ioseph"
+ioseph.v <- which(text == "ioseph")
+
+#Create a vector that represents the entire text
+w.count.v <- rep(NA, length(text))
+w.count.v[ioseph.v] <- 1
+
+#Plot appearances
+plot(w.count.v, main="Dispersion Plot of 'ioseph' in Crocus",
+      xlab="Drama Time", ylab="ioseph", type= "h" , ylim=c(0,1), yaxt= "n")
+
+#Using the UDPipe library
+result <- udpipe(x = text, object = "latin")
+ioseph.v <- which(result$lemma== "ioseph")
+w.count.v <- rep(NA, length(text))
+w.count.v[ioseph.v] <- 1
+
+plot(w.count.v, main="Dispersion of ioseph in Crocus",
+     xlab="Drama Time", ylab="ioseph", type= "h" , ylim=c(0,1), yaxt= "n")
+
+
+###DTM
+
+#Create a document-term frequency table
+text <-  paste(drama, 
+               collapse = "\n")
+result <- udpipe(x = text, 
+                 object = "latin")
+
+#Set co-occurrences
+cooc <- cooccurrence(x = result,
+                     term = "lemma", 
+                     group = c("doc_id", 
+                               "paragraph_id", 
+                               "sentence_id"))
+
+head(cooc)
+
+#Filtered co-occurrences
+cooc1 <- cooccurrence(x = subset(result, 
+                                 upos %in% c("NOUN", "ADJ")), 
+                      term = "lemma", 
+                      group = c("doc_id", 
+                                "paragraph_id", 
+                                "sentence_id"))
+
+head(cooc1)
+
+#Plot co-occurrences: nouns and adjectives
+wordnetwork <- head(cooc1, 50)
+
+wordnetwork <- graph_from_data_frame(wordnetwork)
+
+ggraph(wordnetwork, 
+       layout = "fr") +
+  geom_edge_link(aes(width = cooc, 
+                     edge_alpha = cooc), 
+                 edge_colour = "pink") +
+  geom_node_text(aes(label = name), 
+                 col = "darkgreen", 
+                 size = 4) +
+  theme_graph(base_family = "Arial Narrow") +
+  theme(legend.position = "none") +
+  labs(title = "Cooccurrences within sentence", 
+       subtitle = "Nouns & Adjective")
+
+#Plot co-occurrences: nouns / adjectives which follow one another
+wordnetwork <- head(cooc2, 25)
+
+wordnetwork <- graph_from_data_frame(wordnetwork)
+
+ggraph(wordnetwork, 
+       layout = "fr") +
+  geom_edge_link(aes(width = cooc, 
+                     edge_alpha = cooc),
+                 edge_colour = "red") +
+  geom_node_text(aes(label = name), 
+                 col = "darkgreen", 
+                 size = 4) +
+  theme_graph(base_family = "Arial Narrow") +
+  labs(title = "Words following one another", 
+       subtitle = "Nouns & Adjective")
+
+#Create a provisional dataframe with upos
+
+result_tmp <- subset(result, upos %in% c("NOUN", "ADJ", "VERB", "ADV"))
+
+#Document-term-frequency table
+dtf <- document_term_frequencies(result_tmp, 
+                                 document = "sentence_id", 
+                                 term = "lemma")
+dtf
+
+#Create a document-term matrix and convert into matrix
+dtm <- document_term_matrix(dtf)
+dtm
+
+my_dtm <- as.matrix(dtm)
+View(my_dtm)
+
+#Remove words that appear less than two times and convert into matrix
+dtm <- dtm_remove_lowfreq(dtm, 
+                          minfreq = 2)
+
+my_dtm <- as.matrix(dtm)
+View(my_dtm)
+
+#Export into csv
+write.xlsx(my_dtm, file = "crocus_dtm.xlsx")
+
+#Calculate correlations and transform into table
+termcorrelations <- dtm_cor(dtm)
+y <- as_cooccurrence(termcorrelations)
+
+#Exclude correlations below 0.2 (and then put the table in a decreasing order)
+y <- subset(y, term1 < term2 & abs(cooc) > 0.2)
+y <- y[order(abs(y$cooc), decreasing = TRUE), ]
+
+View(y)
+
+### Basic frequency statistics
+
+#Number of tokens
+
+n_tokens <- length(result$token)
+n_tokens
+
+#Number of types
+n_types <- length(unique(result$token))
+n_types
+
+#Number of lemma types
+n_lemmas <- length(unique(result$lemma))
+n_lemmas
+
+#Type/token ratio
+n_types/n_tokens
+
+### Overall stats per part of speech
+
+#Frequencies of "upos"
+stats <- txt_freq(result$upos)
+
+#Convert to factor
+stats$key <- factor(stats$key, 
+                    levels = stats$key)
+
+#Plot result
+ggplot(data = stats, mapping = aes(x = key, y = freq)) +
+  geom_bar(stat = "identity", fill = "cadetblue") +
+  labs(title = "UPOS (Universal Parts of Speech)\nfrequency of occurrence")
