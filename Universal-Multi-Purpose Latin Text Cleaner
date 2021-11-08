@@ -4,7 +4,8 @@ import cltk
 from cltk.tokenize.word import WordTokenizer
 from nltk.tokenize.punkt import PunktLanguageVars
 
-sentence = 'EVCLIO Exi, inquam. age exi. exeundom hercle tibi omonimum hinc est foras, 40 circumspectatrix cum oculis emissiciis. STAPHYLA Nam cur me miseram verberas? EVCL. Vt misera sis atque ut te dignam mala malam aetatem exigas. STAPH. Nam qua me nunc causa extrusisti ex aedibus? EVCL. Tibi ego rationem reddam, stimulorum seges? 45 illuc regredere ab ostio. illuc sis vide, ut incedit. at scin quo modo tibi res se habet? si hercle hodie fustem cepero aut stimulum in manum, testudineum istum tibi ego grandibo gradum. STAPH. Vtinam me divi adaxint ad suspendium 50 potius quidem quam hoc pacto apud te serviam. EVCL. At ut scelesta sola secum murmurat. oculos hercle ego istos, improba, ecfodiam tibi, ne me observare possis quid rerum geram. abscede etiam nunc -- etiam nunc -- etiam -- ohe, 55 istic astato. si hercle tu ex istoc loco digitum transvorsum aut unguem latum excesseris aut si respexis, donicum ego te iussero, continuo hercle ego te dedam discipulam cruci. scelestiorem me hac anu certo scio 60 vidisse numquam, nimisque ego hanc metuo male, ne mi ex insidiis verba imprudenti duit neu persentiscat aurum ubi est absconditum, quae in occipitio quoque habet oculos pessima. nunc ibo ut visam sitne ita aurum ut condidi, 65 quod me sollicitat plurimis miserum modis.-- STAPH. Noenum mecastor quid ego ero dicam meo malae rei evenisse quamve insaniam, queo comminisci; ita me miseram ad hunc modum decies die uno saepe extrudit aedibus. 70 nescio pol quae illunc hominem intemperiae tenent: pervigilat noctes totas, tum autem interdius quasi claudus sutor domi sedet totos dies. neque iam quo pacto celem erilis filiae probrum, propinqua partitudo cui appetit, 75 queo comminisci; neque quicquam meliust mihi, ut opinor, quam ex me ut unam faciam litteram longam, <meum> laqueo collum quando obstrinxero. Scena secunda EVCL. Nunc defaecato demum animo egredior domo, postquam perspexi salva esse intus omnia. 80 redi nunciam intro atque intus serva. STAPH. Quippini? ego intus servem? an ne quis aedes auferat? nam hic apud nos nihil est aliud quaesti furibus, ita inaniis sunt oppletae atque araneis. EVCL. Mirum quin tua me causa faciat Iuppiter 85 Philippum regem aut Dareum, trivenefica. araneas mihi ego illas servari volo. pauper sum; fateor, patior; quod di dant fero. abi intro, occlude ianuam. iam ego hic ero. cave quemquam alienum in aedis intro miseris. 90 quod quispiam ignem quaerat, extingui volo, ne causae quid sit quod te quisquam quaeritet. nam si ignis vivet, tu extinguere extempulo. tum aquam aufugisse dicito, si quis petet. cultrum, securim, pistillum, mortarium, 95 quae utenda vasa semper vicini rogant, fures venisse atque abstulisse dicito. profecto in aedis meas me absente neminem volo intro mitti. atque etiam hoc praedico tibi, si Bona Fortuna veniat, ne intro miseris. 100 STAPH. Pol ea ipsa credo ne intro mittatur cavet, nam ad aedis nostras numquam adit, quamquam prope est. EVCL. Tace atque abi intro. STAPH. Taceo atque abeo.-- EVCL. Occlude sis fores ambobus pessulis. iam ego hic ero. discrucior animi, quia ab domo abeundum est mihi. 105 nimis hercle invitus abeo. sed quid agam scio. nam noster nostrae qui est magister curiae dividere argenti dixit nummos in viros;'
+# -- PUT YOUR SENTENCE HERE --
+sentence = ""
 text = sentence
 
 # CLTK tokenizer
@@ -14,7 +15,6 @@ word_tokenizer.tokenize(text.lower())
 
 p = PunktLanguageVars()
 tokens = p.word_tokenize(sentence)
-[w for w in tokens if w not in STOPS_LIST]
 
 # General cleaning
 
@@ -23,9 +23,10 @@ class MultiReplacer(object):
     def __init__(self):
         patterns = [(r'v', 'u'), ('V', 'U'), (r'j', 'i'), (r'J', 'I'), (r'uors', 'uers'), (r",", " "), (r"-", ""),
                    (r'0', ''), (r"1", ""), (r"2", ""), (r"3", ""), (r"4", ""), (r"5", ""), (r"6", ""), (r"7", ""), (r"8", ""), (r"9", ""),
-                   (r"<", " "), (r">", " "), (r'"', " "), (r"=", " "), (r"^", " "),
-                   (r',', ' '), (r":", " "), (r";", " "), (r"!", " "), (r"’", " "), (r"-", " "),
-                   (r'  ', ' ')]
+                   (r"<", " "), (r">", " "), (r'"', " "), (r"=", " "), (r"^", " "), (r"~", " "),
+                   (r',', ' '), (r":", " "), (r";", " "), (r"!", " "), (r"’", " "), (r"-", " "), (r"—", " "),
+                   (r'  ', ' '), (r'I.', ''), (r'II.', ''),(r'III.', ''),(r'IV.', ''), (r'V.', ''), (r'ii', ''),
+                   (r'iii', ''), (r'iv', ''), (r'v', ''), (r'vi', ''), (r'vii', '')]
         self.patterns = \
             [(re.compile(regex), repl) for (regex, repl) in patterns]
 
@@ -35,9 +36,21 @@ class MultiReplacer(object):
         return text
 
 j = MultiReplacer()
-pirla = j.clean(sentence.replace('.', '').replace('?', '').replace('(', '').replace(')', '').replace('[', '').replace(']', '').lower())
+replaced_text = j.clean(sentence.replace('.', '').replace('?', '').replace('(', '').replace(')', '').replace('[', '').replace(']', '').lower())
 
-# Enclitics handler: exceptions database
+# Archaisms handler
+
+words = replaced_text
+
+words_split = words.split()
+
+for i, word in enumerate(words_split):
+    if words_split[i].endswith("om", -2):       
+        words_split[i] = words_split[i].replace("om", "um")
+
+words_arch = ' '.join(words_split).replace("optumum", "optimum").replace("maxumum", "maximum").replace("familiai", "familiae")
+
+# Enclitics handler: exceptions database (from CLTK)
 
 enclitics = ["que", "n", "ne", "ue", "ve", "st"]
 
@@ -621,6 +634,7 @@ ue_exceptions += [
     "continue",
     "curue",
     "exigue",
+    "exolue",
     "exue",
     "fatue",
     "faue",
@@ -747,93 +761,174 @@ latin_replacements = [
     (r"\bqualist\b", "qualis est"),
 ]
 
-#Enclitics handler: code
+# Enclitics handler
 
-pisquano = []
+clean_sw = []
 
-for token in pirla:
+for token in words_arch:
     is_enclitic = False
     if token.lower() not in exceptions:
         for enclitic in enclitics:
             if token.endswith(enclitic):
                 if enclitic == "n":
-                    pisquano += [token[: -len(enclitic)]] + ["-ne"]
+                    clean_sw += [token[: -len(enclitic)]] + ["-ne"]
                 elif enclitic == "st":
                     if token.endswith("ust"):
-                        pisquano += [token[: -len(enclitic) + 1]] + [
+                        clean_sw += [token[: -len(enclitic) + 1]] + [
                             "est"
                         ]
                     else:
-                        pisquano += [token[: -len(enclitic)]] + ["est"]
+                        clean_sw += [token[: -len(enclitic)]] + ["est"]
                 else:
-                    pisquano += [token[: -len(enclitic)]] + [
+                    clean_sw += [token[: -len(enclitic)]] + [
                         "-" + enclitic
                     ]
                 is_enclitic = True
                 break
     if not is_enclitic:
-        pisquano.append(token)
+        clean_sw.append(token)
 
-for sent in pisquano:
-            ciüciamanüber = word_tokenizer.tokenize(pirla.lower())
+for sent in clean_sw:
+            new_clean_sw = word_tokenizer.tokenize(words_arch.lower())
             if sent:
-                if ciüciamanüber[0].endswith("que"):
-                    if ciüciamanüber[0].lower() not in exceptions:
-                        temp = [ciüciamanüber[0][:-2], "-ne"]
-                        ciüciamanüber = temp + ciüciamanüber[1:]
-                if ciüciamanüber[-1].endswith("."):
-                    final_word = ciüciamanüber[-1][:-1]
-                    del ciüciamanüber[-1]
-                    ciüciamanüber += [final_word, "."]
+                if new_clean_sw[0].endswith("que"):
+                    if new_clean_sw[0].lower() not in exceptions:
+                        temp = [new_clean_sw[0][:-2], "-ne"]
+                        new_clean_sw = temp + new_clean_sw[1:]
+                if new_clean_sw[-1].endswith("."):
+                    final_word = new_clean_sw[-1][:-1]
+                    del new_clean_sw[-1]
+                    new_clean_sw += [final_word, "."]
 
-                for token in ciüciamanüber:
+                for token in new_clean_sw:
                     tokens.append(token)
 
-clean_text = ciüciamanüber
-
-print(clean_text)
+clean_text = new_clean_sw
 
 # Cleaning stopwords
 
 stopwords = [
+    "a",
     "ab",
-    "-que",
-    "-ne",
+    "que",
+    "ne",
     "ue",
     "ac",
     "ad",
     "adhic",
+    "alius",
+    "alia",
+    "aliud",
+    "alicuius",
+    "alicui",
+    "aliquem",
+    "aliquam",
+    "aliquo",
+    "aliqua",
     "aliqui",
+    "aliquae",
+    "aliquorum",
+    "aliquarum",
+    "aliquas",
+    "aliquos",
     "aliquis",
     "an",
     "ante",
     "apud",
     "at",
     "atque",
+    "ero",
+    "eris", 
+    "erit", 
+    "erimus",
+    "eritis", 
+    "erunt",
+    "eram",
+    "eras",
+    "erat",
+    "eramus",
+    "eratis",
+    "erant",
+    "sim",
+    "sis",
+    "sit",
+    "simus",
+    "sitis",
+    "sint",
+    "essem",
+    "esses",
+    "esset",
+    "essemus",
+    "essetis",
+    "essent",
     "aut",
     "autem",
+    "contra",
+    "cui",
     "cum",
     "cur",
     "de",
     "deinde",
     "dum",
+    "ea",
+    "eadem",
+    "eodem",
+    "isdem",
+    "iisdem",
+    "eosdem",
+    "easdem",
     "ego",
     "enim",
     "ergo",
+    "eum",
     "es",
     "est",
+    "estis",
     "et",
     "etiam",
     "etsi",
     "ex",
+    "fore",
+    "fui",
+    "fuisti",
+    "fuit",
+    "fuimus",
+    "fuistis",
+    "fuerunt",
     "fio",
+    "fis",
+    "fit",
+    "fiunt",
     "haud",
     "hic",
     "hinc",
+    "hoc",
+    "haec",
+    "hanc",
+    "horum",
+    "harum",
+    "huic",
+    "hi",
+    "hae",
     "iam",
+    "id",
     "idem",
     "igitur",
     "ille",
+    "illis",
+    "illi",
+    "illae",
+    "illos",
+    "illa",
+    "illud",
+    "illum",
+    "illo",
+    "illae",
+    "illorum",
+    "illarum",
+    "illic",
+    "illac",
+    "illanc",
     "in",
     "infra",
     "inter",
@@ -841,6 +936,21 @@ stopwords = [
     "ipse",
     "is",
     "ita",
+    "mi",
+    "mihi",
+    "me",
+    "meus",
+    "mea",
+    "meum",
+    "mei",
+    "meo",
+    "mea",
+    "meae",
+    "meorum",
+    "mearum",
+    "meis",
+    "meos",
+    "meas",
     "magis",
     "modo",
     "mox",
@@ -851,42 +961,86 @@ stopwords = [
     "neque",
     "nisi",
     "non",
+    "nonne",
+    "num",
     "nos",
+    "nunc",
+    "numquam",
+    "nunquam",
     "o",
     "ob",
     "per",
     "possum",
     "post",
+    "postquam",
+    "prae",
     "pro",
+    "qua",
     "quae",
     "quam",
+    "quom",
+    "quorum",
+    "quarum"
     "quare",
     "qui",
     "quia",
+    "quibus",
+    "quabus",
     "quicumque",
     "quidem",
     "quilibet",
+    "quin",
     "quis",
     "quisnam",
     "quisquam",
     "quisque",
     "quisquis",
     "quo",
+    "quod",
     "quoniam",
+    "se",
+    "sese",
     "sed",
     "si",
+    "simul",
+    "sibi"
     "sic",
+    "sin",
     "sive",
     "sub",
     "sui",
     "sum",
+    "sumus",
+    "sunt",
     "super",
     "suus",
+    "sua",
+    "suum",
+    "sui",
+    "suo",
+    "suam",
+    "suum",
+    "suae",
+    "suorum",
+    "suarum",
+    "suis",
+    "suos",
+    "suas",
     "tam",
     "tamen",
     "tibi",
     "trans",
     "tu",
+    "te",
+    "tui",
+    "tua",
+    "tuo",
+    "tuae",
+    "tuorum",
+    "tuarum",
+    "tuis",
+    "tuos",
+    "tuas",
     "tum",
     "ubi",
     "uel",
@@ -896,7 +1050,8 @@ stopwords = [
 ]
 
 def removeStopwords(clean_text, stopwords):
-    return [w for w in clean_text if w not in stopwords]
+    return [w for w in new_clean_sw if w not in stopwords]
 
-clean_text_no_sw = removeStopwords(clean_text, stopwords)
+clean_text_no_sw = removeStopwords(new_clean_sw, stopwords)
+clean_text_no_sw = ' '.join(clean_text_no_sw)
 print(clean_text_no_sw)
