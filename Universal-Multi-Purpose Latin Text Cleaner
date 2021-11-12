@@ -4,9 +4,9 @@ import cltk
 from cltk.tokenize.word import WordTokenizer
 from nltk.tokenize.punkt import PunktLanguageVars
 
-# -- PUT YOUR SENTENCE HERE --
-sentence = ""
-text = sentence
+# -- PUT YOUR TEXT HERE --
+corpus = ""
+text = corpus
 
 # CLTK tokenizer
 
@@ -48,9 +48,9 @@ for i, word in enumerate(words_split):
     if words_split[i].endswith("om", -2):       
         words_split[i] = words_split[i].replace("om", "um")
 
-words_arch = ' '.join(words_split).replace("optumum", "optimum").replace("maxumum", "maximum").replace("familiai", "familiae")
+words_arch = ' '.join(words_split).replace("optumum", "optimum").replace("maxumum", "maximum").replace("familiai", "familiae").replace("quom", "cum")
 
-# Enclitics handler: exceptions database (from CLTK)
+# Enclitics handler: exceptions database
 
 enclitics = ["que", "n", "ne", "ue", "ve", "st"]
 
