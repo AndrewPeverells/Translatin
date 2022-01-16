@@ -1,3 +1,11 @@
+### 
+
+CAREFUL!
+
+To run this script, you'll need a very powerful computer!
+
+###
+
 import re
 import nltk
 import cltk
