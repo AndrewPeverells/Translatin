@@ -44,7 +44,7 @@ class MultiReplacer(object):
         return text
 
 j = MultiReplacer()
-replaced_text = j.clean(sentence.replace('.', '').replace('?', '').replace('(', '').replace(')', '').replace('[', '').replace(']', '').lower())
+replaced_text = j.clean(sentence.replace('.', '').replace('?', '').replace('(', '').replace(')', '').replace('[', '').replace(']', '').lower()) ##so che non ha senso, ho dovuto splittare qui alcuni replace perché nella big funzione sopra non me li prendeva per qualche motivo
 
 # Archaisms handler
 
@@ -54,13 +54,13 @@ words_split = words.split()
 
 for i, word in enumerate(words_split):
     if words_split[i].endswith("om", -2):       
-        words_split[i] = words_split[i].replace("om", "um")
+        words_split[i] = words_split[i].replace("om", "um") ##di base qui mi servirebbe che le parole che finiscono in -om vengano trasformate in -um / da -umum a -imum /  da -ai ad -ae. non sono riuscito a dargli una regola generale da applicare a tutto il testo perché faccio pena con le regex, quindi ho scritto le singole sostituzioni manualmente poco sotto
 
 words_arch = ' '.join(words_split).replace("optumum", "optimum").replace("maxumum", "maximum").replace("familiai", "familiae").replace("quom", "cum")
 
 # Enclitics handler: exceptions database
 
-enclitics = ["que", "n", "ne", "ue", "ve", "st"]
+enclitics = ["que", "n", "ne", "ue", "ve", "st"] ##un'enclitica è una parola che si appoggia alla fine di un'altra (tipo "amandoti" > amando te). mi serve che vengano tutte splittate, quando dunque una parola finisce per "que", "n", "ne", "ue", "ve", "st", TRANNE nei casi elencati da questa mia listona custom, che costituisce le eccezioni per il latino.
 
 que_exceptions = []
 n_exceptions = []
@@ -769,7 +769,7 @@ latin_replacements = [
     (r"\bqualist\b", "qualis est"),
 ]
 
-# Enclitics handler
+# Enclitics handler  ##qui l'actual codice che dovrebbe splittare le enclitiche, l'ho preso e modificato da CLTK
 
 clean_sw = []
 
@@ -813,7 +813,7 @@ for sent in clean_sw:
 
 clean_text = new_clean_sw
 
-# Cleaning stopwords
+# Cleaning stopwords  ##e qui i dolori. mi serve semplicemente che tutte queste parole (che tra l'altro dovrebbero essere anche aggiornate) vengano tolte dal testo. per qualche motivo strano ci mette letteralmente ore, ma non dovrebbe essere così tosta...
 
 stopwords = [
     "a",
