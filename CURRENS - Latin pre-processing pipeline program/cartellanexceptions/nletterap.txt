@@ -1,5 +1,0 @@
-paean
-pan
-pelion
-phaethon
-python
